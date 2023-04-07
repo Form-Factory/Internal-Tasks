@@ -3,12 +3,12 @@ description: Request a new feature
 title:  "[NEW FEATURE] title"
 labels: ["new feature"]
 body: 
-  - type: textarea
+ - type: textarea
     attributes: 
-      label: Bug description
-      description: Please describe the bug you're noticing
+     label: New Feature Description
+     description: Please describe the new feature
     validations: 
-      required: false
+     required: false
   - type: textarea
     attributes: 
       label: Reproduction steps
