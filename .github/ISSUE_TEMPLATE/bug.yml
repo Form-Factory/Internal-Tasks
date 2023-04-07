@@ -24,7 +24,6 @@ body:
         - Affecting ability to checkout
         - Affecting store access
         - Not affecting revenue
-        - Low (when time is available) 
     validations:
       required: true
   - type: textarea 
