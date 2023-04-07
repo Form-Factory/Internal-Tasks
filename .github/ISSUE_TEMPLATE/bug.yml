@@ -19,7 +19,7 @@ body:
     id: Severity
     attributes:
       label: Revenue Impacting
-      description: Is this affecting the revenue of your live store?
+      description: Is this affecting the revenue of your store?
       options:
         - Affecting ability to checkout
         - Affecting store access
