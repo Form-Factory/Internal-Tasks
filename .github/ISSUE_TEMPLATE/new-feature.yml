@@ -3,13 +3,13 @@ description: Request a new feature
 title: "[NEW FEATURE] title"
 labels: ["new feature"]
 body: 
-  - type: textarea
-    attributes: 
-      label: New Feature Description
-      description: Please describe the new feature
-    validations: 
-      required: false
-  - type: dropdown
+ - type: textarea
+   attributes: 
+     label: New Feature Description
+     description: Please describe the new feature
+   validations: 
+     required: false
+- type: dropdown
     id: Timeline
     attributes:
       label: Timeline
