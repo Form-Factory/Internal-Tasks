@@ -10,14 +10,14 @@ body:
     validations: 
      required: false
   - type: dropdown
-    id: Severity
+    id: Timeline
     attributes:
-      label: Revenue Impacting
-      description: Is this affecting the revenue of your store?
+      label: Timeline
+      description: Please let us know the timeline for getting this feature live (Note❗️ we will need to ensure the feature can be done in the timeline provided based on specs)
       options:
-        - Affecting ability to checkout
-        - Affecting UX / Affecting ability to modify content
-        - Not affecting revenue
+        - End of current sprint
+        - Next sprint 
+        - Lets discuss
     validations:
       required: true
   - type: textarea 
