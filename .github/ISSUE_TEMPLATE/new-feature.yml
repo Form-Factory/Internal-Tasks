@@ -28,7 +28,7 @@ body:
     validations: 
       required: false
   - type: checkbox
-    id:: design
+    id: design
     attributes: 
       label: checkboxes
       description: Would you like us to put a design together for this feature?  
