@@ -4,7 +4,7 @@ title:  "[NEW FEATURE] title"
 labels: ["new feature"]
 body: 
  - type: textarea
-    attributes: 
+    attributes:
      label: New Feature Description
      description: Please describe the new feature
     validations: 
