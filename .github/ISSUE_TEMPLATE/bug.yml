@@ -18,12 +18,12 @@ body:
   - type: dropdown
     id: Severity
     attributes:
-      label: Severity
-      description: How critican of an issue is this? 
+      label: Revenue Impacting
+      description: Is this affecting the revenue of your live store?
       options:
-        - Critical (Immidiate help needed)
-        - High (24 hours)
-        - Medium (this week)
+        - Affecting ability to checkout
+        - Affecting store access
+        - Not affecting revenue
         - Low (when time is available) 
     validations:
       required: true
