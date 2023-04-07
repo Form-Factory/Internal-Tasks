@@ -15,7 +15,7 @@ body:
       description: Please list out the steps to reproduce this issue
     validations: 
       required: false
-  - type: input 
+  - type: textarea
      attributes:
       label: Effected URL
       placeholder: Please input the effected URL we can see the issue
