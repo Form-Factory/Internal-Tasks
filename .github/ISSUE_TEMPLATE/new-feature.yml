@@ -9,12 +9,6 @@ body:
      description: Please describe the new feature
     validations: 
      required: false
-  - type: textarea
-    attributes: 
-      label: Reproduction steps
-      description: Please list out the steps to reproduce this issue
-    validations: 
-      required: false
   - type: dropdown
     id: Severity
     attributes:
