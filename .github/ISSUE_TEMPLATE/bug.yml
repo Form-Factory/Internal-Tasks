@@ -15,7 +15,6 @@ body:
       description: Please list out the steps to reproduce this issue
     validations: 
       required: false
-      
   - type: input 
      attributes:
       label: Effected URL
