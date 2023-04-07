@@ -31,7 +31,7 @@ body:
     id: design
     attributes: 
       label: Design Needed?
-      description: Would you like us to put a design together for this feature?  
+      description: This will billed in addition to development hours
       options: 
-        - label: This will billed in addition to development hours 
+        - label: We would like a design mocked up for this feature
           required: true
