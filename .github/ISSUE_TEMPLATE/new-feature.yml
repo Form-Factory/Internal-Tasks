@@ -1,0 +1,35 @@
+name: Feature Request
+description: Request a new feature
+title: "[NEW FEATURE] title"
+labels: ["new feature"]
+body: 
+  - type: textarea
+    attributes: 
+      label: New Feature Description
+      description: Please describe the new feature
+    validations: 
+      required: false
+  - type: textarea
+    attributes: 
+      label: Reproduction steps
+      description: Please list out the steps to reproduce this issue
+    validations: 
+      required: false
+  - type: dropdown
+    id: Timeline
+    attributes:
+      label: Timeline
+      description: Please let us know the timeline for getting this feature live
+      options:
+        - Affecting ability to checkout
+        - Affecting UX / Affecting ability to modify content
+        - Not affecting revenue
+    validations:
+      required: true
+  - type: textarea 
+    attributes: 
+      label: Any references? 
+      description: Design files, links to other sites,  Anything that will provide us with more context about the feature you'd like us to build. 
+      placeholder: Tip💡 You can attach images or log files by clicking this area to highlight it and then dragging files in! 
+    validations: 
+      required: false
