@@ -35,4 +35,4 @@ body:
       options: 
         - This will billed in addition to development hours 
     validations: 
-      required: false
+      required: true
