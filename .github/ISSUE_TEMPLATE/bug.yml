@@ -15,6 +15,18 @@ body:
       description: Please list out the steps to reproduce this issue
     validations: 
       required: false
+  - type: dropdown
+    id: Severity
+    attributes:
+      label: Version
+      description: How critican of an issue is this? 
+      options:
+        - Critical (Immidiate help needed)
+        - High (24 hours)
+        - Medium (this week)
+        - Low (when time is available) 
+    validations:
+      required: true
   - type: textarea 
     attributes: 
       label: Anything else? 
