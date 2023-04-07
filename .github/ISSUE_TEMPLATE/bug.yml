@@ -22,7 +22,7 @@ body:
       description: Is this affecting the revenue of your store?
       options:
         - Affecting ability to checkout
-        - Affecting store access
+        - Affecting UX / Affecting ability to modify content
         - Not affecting revenue
     validations:
       required: true
