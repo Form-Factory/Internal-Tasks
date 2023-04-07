@@ -30,9 +30,8 @@ body:
   - type: checkboxes
     id: design
     attributes: 
-      label: checkboxes
+      label: Design Needed?
       description: Would you like us to put a design together for this feature?  
       options: 
-        - This will billed in addition to development hours 
-    validations: 
-      required: true
+        - label: This will billed in addition to development hours 
+          required: true
