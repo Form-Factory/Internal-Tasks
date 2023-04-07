@@ -8,13 +8,14 @@ body:
      label: New Feature Description
      description: Please describe the new feature
     validations: 
-     required: false
+     required: true
   - type: dropdown
     id: Timeline
     attributes:
       label: Timeline
-      description: Please let us know the timeline for getting this feature live 
-      (Note❗️ we will need to ensure the feature can be done in the timeline provided based on specs)
+      description: - 
+        Please let us know the timeline for getting this feature live 
+        (Note❗️ we will need to ensure the feature can be done in the timeline provided based on specs)
       options:
         - End of current sprint
         - Next sprint 
