@@ -1,7 +1,7 @@
 name: 🚨 Report a Critical Bug
-description: File a Bug/Issue
-title: "[BUG] title"
-labels: ["critical bug"]
+description: File a Critical Bug
+title: "[CRITICAL BUG] title"
+labels: ["critical bug "]🚨
 body: 
   - type: textarea
     attributes: 
