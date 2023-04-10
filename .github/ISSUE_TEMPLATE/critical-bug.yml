@@ -1,11 +1,11 @@
-name: 🚨 Report a Critical Bug
-description: File a Critical Bug
-title: "[CRITICAL BUG] title"
-labels: ["critical bug 🚨"]
+name: 🚨 Report a Critical Issue
+description: File a Critical Issue
+title: "[CRITICAL ISSUE] title"
+labels: ["critical issue"]
 body: 
   - type: textarea
     attributes: 
-      label: Critical Bug description
+      label: Critical Issue description
       description: Please describe the bug you're noticing
     validations: 
       required: true
