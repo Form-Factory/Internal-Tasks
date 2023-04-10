@@ -1,0 +1,23 @@
+name: 🚨 Report a Critical Bug
+description: File a Bug/Issue
+title: "[BUG] title"
+labels: ["critical bug"]
+body: 
+  - type: textarea
+    attributes: 
+      label: Critical Bug description
+      description: Please describe the bug you're noticing
+    validations: 
+      required: true
+  - type: textarea
+    attributes: 
+      label: Reproduction steps
+      description: Please list out the steps to reproduce this issue
+    validations: 
+      required: true
+  - type: textarea 
+    attributes: 
+      label: When did you first notice this issue? 
+      description: Please share when the issue was first discovered 
+    validations: 
+      required: false
