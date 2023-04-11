@@ -1,6 +1,6 @@
 name: General Issue
 description: File a general issue
-title: " "
+title: "general issue"
 body: 
   - type: textarea
     attributes: 
