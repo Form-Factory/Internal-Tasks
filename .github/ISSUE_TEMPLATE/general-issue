@@ -1,0 +1,10 @@
+name: General Issue
+description: File a general issue
+title: " "
+body: 
+  - type: textarea
+    attributes: 
+      label: Description 
+      description: Please describe the issue 
+    validations: 
+      required: true
