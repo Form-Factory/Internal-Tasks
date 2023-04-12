@@ -2,6 +2,8 @@ name: 🪲 Report a Bug
 description: File a Bug/Issue
 title: "[BUG] title"
 labels: ["bug"]
+assingees: 
+  - acgsia-tff
 body: 
   - type: textarea
     attributes: 
