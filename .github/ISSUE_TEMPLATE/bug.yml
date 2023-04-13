@@ -17,17 +17,6 @@ body:
       description: Please list out the steps to reproduce this issue
     validations: 
       required: false
-  - type: dropdown
-    id: Severity
-    attributes:
-      label: Revenue Impacting
-      description: Is this affecting the revenue of your store?
-      options:
-        - Affecting ability to checkout
-        - Affecting UX / Affecting ability to modify content
-        - Not affecting revenue
-    validations:
-      required: true
   - type: textarea 
     attributes: 
       label: Anything else? 
