@@ -2,8 +2,7 @@ name: Label issues
 on:
   issues:
     types:
-      - reopened
-      - opened
+      - closed
 jobs:
   label_issues:
     runs-on: ubuntu-latest
@@ -17,5 +16,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              labels: ["new issue"]
+              labels: ["Done"]
             })
