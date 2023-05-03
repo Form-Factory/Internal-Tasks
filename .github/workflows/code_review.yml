@@ -1,6 +1,8 @@
-name: Add "QA needed" label and remove "needs code review" label on approved pull request
+name: Add "needs code review" label and replaces it with "QA needed" on approved pull request
 
 on:
+  pull_request:
+    types: [opened, review_requested]
   pull_request_review:
     types: [submitted]
 
@@ -8,8 +10,20 @@ jobs:
   add_label:
     runs-on: ubuntu-latest
     steps:
+      - name: Check if pull request is opened
+        if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ["needs code review"]
+            })
       - name: Check for approved review
-        if: github.event.review.state == 'approved'
+        if: github.event_name == 'pull_request_review' && github.event.review.state == 'approved'
         uses: actions/github-script@v4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
