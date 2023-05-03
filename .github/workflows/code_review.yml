@@ -1,16 +1,18 @@
-name: Add "needs code review" label and replaces it with "QA needed" on approved pull request
+=name: Add "needs code review" label and replace with "QA needed" label on approved pull request and assign "acgsia-tff"
 
 on:
   pull_request:
-    types: [opened, review_requested]
+    types: [opened]
   pull_request_review:
     types: [submitted]
+  issues:
+    types: [labeled]
 
 jobs:
   add_label:
     runs-on: ubuntu-latest
     steps:
-      - name: Check if pull request is opened
+      - name: Add "needs code review" label
         if: github.event_name == 'pull_request' && github.event.action == 'opened'
         uses: actions/github-script@v4
         with:
@@ -22,8 +24,8 @@ jobs:
               issue_number: context.issue.number,
               labels: ["needs code review"]
             })
-      - name: Check for approved review
-        if: github.event_name == 'pull_request_review' && github.event.review.state == 'approved'
+      - name: Remove "needs code review" label and add "QA needed" label and assign "acgsia-tff"
+        if: github.event_name == 'issues' && contains(github.event.issue.labels.*.name, 'QA needed')
         uses: actions/github-script@v4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -34,9 +36,9 @@ jobs:
               issue_number: context.issue.number,
               name: "needs code review"
             });
-            github.issues.addLabels({
+            github.issues.addAssignees({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              labels: ["QA needed"]
+              assignees: ["acgsia-tff"]
             });
