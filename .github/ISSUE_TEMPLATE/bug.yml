@@ -3,7 +3,8 @@ description: File a Bug/Issue
 title: "[BUG] title"
 labels: ["bug"]
 assignees: 
-  - acgsia-tff, - AlexBramall
+  - acgsia-tff
+  - AlexBramall
 body: 
   - type: textarea
     attributes: 
