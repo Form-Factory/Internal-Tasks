@@ -25,7 +25,7 @@ body:
     validations: 
       required: false
   - type: checkboxes
-    id: Chubbies review
+    id: review
     attributes: 
       label: Would you like to review this before going live? 
       description: We will share a preview link with you and wait for explicit approval before merging this fix to prodiction 
