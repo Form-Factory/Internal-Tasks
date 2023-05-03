@@ -1,2 +1,2 @@
 # Internal-Tasks 
-Used for testing  workflow
+Action created for automating the labels added to PRs
