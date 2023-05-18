@@ -14,23 +14,24 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { Octokit } = require("@octokit/rest");
+            const { Octokit } = require("@octokit/core");
+
             const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 
-            const { data: projects } = await octokit.projects.listForRepo({
+            const { data: projects } = await octokit.request('GET /repos/{owner}/{repo}/projects', {
               owner: context.repo.owner,
               repo: context.repo.repo
             });
 
             const projectId = projects.find(project => project.name === 'Internal-Tasks').id;
 
-            const { data: columns } = await octokit.projects.listColumns({
+            const { data: columns } = await octokit.request('GET /projects/{project_id}/columns', {
               project_id: projectId
             });
 
             const columnId = columns.find(column => column.name === 'To do').id;
 
-            await octokit.projects.createCard({
+            await octokit.request('POST /projects/columns/{column_id}/cards', {
               column_id: columnId,
               content_id: context.issue.id,
               content_type: 'Issue'
