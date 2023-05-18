@@ -11,7 +11,7 @@ jobs:
     - name: Check for QA Needed label
       id: check_label
       run: |
-        LABEL_NAME="QA Needed"
+        LABEL_NAME="QA needed"
         IS_PRESENT=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/labels | jq '.[] | select(.name=="'"$LABEL_NAME"'")')
         if [[ -n "$IS_PRESENT" ]]; then
           echo "The label $LABEL_NAME is present, blocking merge"
