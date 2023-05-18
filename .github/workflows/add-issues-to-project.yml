@@ -1,4 +1,4 @@
-name: Add All New Issues to Project
+name: Add Issue to Chubbies Migration Project
 
 on:
   issues:
@@ -14,6 +14,8 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
+            const github = context.github;
+            
             const { data: project } = await github.projects.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo
