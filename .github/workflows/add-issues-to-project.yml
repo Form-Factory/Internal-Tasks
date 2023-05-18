@@ -5,54 +5,31 @@ on:
     types: [opened]
 
 jobs:
-  get-project-id:
-    runs-on: ubuntu-latest
-    outputs:
-      projectId: ${{ steps.get-id.outputs.projectId }}
-    steps:
-    - name: Get project id
-      id: get-id
-      uses: octokit/graphql-action@v3.x
-      with:
-        query: |
-          query($owner: String!, $repo: String!, $projectName: String!) {
-            repository(owner:$owner, name:$repo) {
-              projects(search:$projectName, first:1) {
-                nodes {
-                  id
-                }
-              }
-            }
-          }
-        variables: |
-          {
-            "owner": "<owner>",
-            "repo": "<repo>",
-            "projectName": "Internal-Tasks"
-          }
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
   add-to-project:
-    needs: get-project-id
     runs-on: ubuntu-latest
     steps:
     - name: Add issue to project
-      id: add-issue
-      uses: octokit/graphql-action@v3.x
+      uses: actions/github-script@v5
       with:
-        query: |
-          mutation($contentId: ID!, $projectId: ID!) {
-            addProjectNextItem(input: {projectId: $projectId, contentId: $contentId}) {
-              projectNextItem {
-                id
-              }
-            }
-          }
-        variables: |
-          {
-            "contentId": "${{ github.event.issue.node_id }}",
-            "projectId": "${{ needs.get-project-id.outputs.projectId }}"
-          }
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          // Get the id of the project titled "Internal-Tasks"
+          const { data: projects } = await github.rest.projects.listForRepo({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+          });
+          const project = projects.find(p => p.name === "Internal-Tasks");
+
+          // Get the id of the "To do" column
+          const { data: columns } = await github.rest.projects.listColumns({
+            project_id: project.id,
+          });
+          const column = columns.find(c => c.name === "To do");
+
+          // Create a card for the issue in the "To do" column
+          await github.rest.projects.createCard({
+            column_id: column.id,
+            content_id: context.issue.id,
+            content_type: "Issue",
+          });
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
