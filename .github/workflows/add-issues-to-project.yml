@@ -14,20 +14,20 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const github = context.github;
+            const gh = context.github;
             
-            const { data: project } = await github.projects.listForRepo({
+            const { data: project } = await gh.projects.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo
             });
             
-            const { data: columns } = await github.projects.listColumns({
+            const { data: columns } = await gh.projects.listColumns({
               project_id: project[0].id
             });
             
             const columnId = columns.find(column => column.name === 'To do').id;
             
-            await github.projects.createCard({
+            await gh.projects.createCard({
               column_id: columnId,
               content_id: context.issue.id,
               content_type: 'Issue'
