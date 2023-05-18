@@ -1,34 +1,58 @@
-name: Add Issue to Internal-Tasks Project
+name: Add new issues to project
 
 on:
   issues:
     types: [opened]
 
 jobs:
-  addIssueToProject:
+  get-project-id:
     runs-on: ubuntu-latest
-
+    outputs:
+      projectId: ${{ steps.get-id.outputs.projectId }}
     steps:
-      - name: Add issue to project
-        uses: actions/github-script@v5
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { data: projects } = await github.rest.projects.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo
-            });
-
-            const projectId = projects.find(project => project.name === 'Internal-Tasks').id;
-
-            const { data: columns } = await github.rest.projects.listColumns({
-              project_id: projectId
-            });
-
-            const columnId = columns.find(column => column.name === 'To do').id;
-
-            await github.rest.projects.createCard({
-              column_id: columnId,
-              content_id: context.issue.id,
-              content_type: 'Issue'
-            });
+    - name: Get project id
+      id: get-id
+      uses: octokit/graphql-action@v3.x
+      with:
+        query: |
+          query($owner: String!, $repo: String!, $projectName: String!) {
+            repository(owner:$owner, name:$repo) {
+              projects(search:$projectName, first:1) {
+                nodes {
+                  id
+                }
+              }
+            }
+          }
+        variables: |
+          {
+            "owner": "<owner>",
+            "repo": "<repo>",
+            "projectName": "Internal-Tasks"
+          }
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
+  add-to-project:
+    needs: get-project-id
+    runs-on: ubuntu-latest
+    steps:
+    - name: Add issue to project
+      id: add-issue
+      uses: octokit/graphql-action@v3.x
+      with:
+        query: |
+          mutation($contentId: ID!, $projectId: ID!) {
+            addProjectNextItem(input: {projectId: $projectId, contentId: $contentId}) {
+              projectNextItem {
+                id
+              }
+            }
+          }
+        variables: |
+          {
+            "contentId": "${{ github.event.issue.node_id }}",
+            "projectId": "${{ needs.get-project-id.outputs.projectId }}"
+          }
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
