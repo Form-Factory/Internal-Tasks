@@ -1,0 +1,32 @@
+name: Add All New Issues to Project
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  addIssueToProject:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Add issue to project
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: project } = await github.projects.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            
+            const { data: columns } = await github.projects.listColumns({
+              project_id: project[0].id
+            });
+            
+            const columnId = columns.find(column => column.name === 'To do').id;
+            
+            await github.projects.createCard({
+              column_id: columnId,
+              content_id: context.issue.id,
+              content_type: 'Issue'
+            });
