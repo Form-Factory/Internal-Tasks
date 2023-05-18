@@ -23,6 +23,6 @@ jobs:
     - name: Block merge if QA Needed
       run: |
         if [[ "${{ steps.check_label.outputs.merge }}" == "false" ]]; then
-          echo "Blocking merge as the label 'QA Needed' is present"
+          echo "Blocking merge as the label 'QA needed' is present"
           exit 1
         fi
