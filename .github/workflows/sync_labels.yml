@@ -1,4 +1,4 @@
-name: Sync Labels between issues and the associated pull request
+name: Sync Labels
 
 on:
   pull_request:
@@ -19,27 +19,37 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm install --global jq
+
       - name: Sync labels
         run: |
           # Retrieve necessary information
           pr_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
           pr_labels=$(curl -sH "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$pr_number" | \
-            jq --raw-output '.labels[].name')
+            jq --raw-output '.labels[].name // empty')
 
           issue_number=$(jq --raw-output .issue.number "$GITHUB_EVENT_PATH")
           issue_labels=$(curl -sH "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$issue_number" | \
-            jq --raw-output '.labels[].name')
+            jq --raw-output '.labels[].name // empty')
 
           # Compare labels and sync if necessary
           if [[ "$pr_labels" != "$issue_labels" ]]; then
             echo "Labels are not in sync. Updating issue labels..."
-            curl -sX POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-              -H "Accept: application/vnd.github.v3+json" \
-              -H "Content-Type: application/json" \
-              -d "{\"labels\": $pr_labels}" \
-              "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$issue_number/labels"
+            for label in $pr_labels; do
+              curl -sX POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                -H "Accept: application/vnd.github.v3+json" \
+                -H "Content-Type: application/json" \
+                -d "{\"labels\": [\"$label\"]}" \
+                "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$issue_number/labels"
+            done
           else
             echo "Labels are already in sync."
           fi
