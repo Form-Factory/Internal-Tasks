@@ -28,12 +28,12 @@ jobs:
           # Retrieve pull request labels
           pr_labels=$(curl -sH "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$pr_number" | \
-            node -p "JSON.parse(fs.readFileSync('/dev/stdin').toString()).labels.map(label => label.name)")
+            jq -r '.labels | map(.name) | if length > 0 then . else empty end[]')
 
           # Retrieve issue labels
           issue_labels=$(curl -sH "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$issue_number" | \
-            node -p "JSON.parse(fs.readFileSync('/dev/stdin').toString()).labels.map(label => label.name)")
+            jq -r '.labels | map(.name) | if length > 0 then . else empty end[]')
 
           # Compare labels and sync if necessary
           if [[ "$pr_labels" != "$issue_labels" ]]; then
