@@ -28,17 +28,18 @@ jobs:
           # Retrieve pull request labels
           pr_labels=$(curl -sH "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls/$pr_number" | \
-            jq -r '.labels | map(.name) | if length > 0 then . else empty end[]')
+            jq -r '.labels[].name' | tr '\n' ',' | sed 's/,$//')
 
           # Retrieve issue labels
           issue_labels=$(curl -sH "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$issue_number" | \
-            jq -r '.labels | map(.name) | if length > 0 then . else empty end[]')
+            jq -r '.labels[].name' | tr '\n' ',' | sed 's/,$//')
 
           # Compare labels and sync if necessary
           if [[ "$pr_labels" != "$issue_labels" ]]; then
             echo "Labels are not in sync. Updating issue labels..."
-            for label in $pr_labels; do
+            IFS=',' read -ra pr_label_array <<< "$pr_labels"
+            for label in "${pr_label_array[@]}"; do
               curl -sX POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
                 -H "Accept: application/vnd.github.v3+json" \
                 -H "Content-Type: application/json" \
