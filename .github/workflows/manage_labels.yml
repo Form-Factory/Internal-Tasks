@@ -17,9 +17,9 @@ jobs:
           node-version: '14'
 
       - name: Install dependencies
-        run: npm install
-
-      - name: Manage Labels
         run: |
           cd .github/scripts
-          node manage-labels.js
+          npm install
+
+      - name: Manage Labels
+        run: node .github/scripts/manage-labels.js
