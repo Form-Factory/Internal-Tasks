@@ -1,0 +1,67 @@
+name: Pull Request Label Management
+
+on:
+  pull_request:
+    types: [opened, ready_for_review, synchronize]
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  label_management:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add "needs code review" label
+        if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'ready_for_review')
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const labelsToAdd = ['Needs: Code Review'];
+            github.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: labelsToAdd
+            })
+
+      - name: Update Pull Request Label
+        if: github.event_name == 'pull_request_review' && github.event.review.state == 'approved'
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const labelsToAdd = ['Needs: QA'];
+            const labelsToRemove = ['Needs: Code Review'];
+            github.issues.removeLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              name: labelsToRemove
+            });
+            github.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: labelsToAdd
+            });
+            
+      - name: Update Pull Request Label - Changes Requested
+        if: github.event_name == 'pull_request_review' && github.event.review.state == 'changes_requested'
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const labelsToAdd = ['Needs: Changes'];
+            const labelsToRemove = ['Needs: Code Review'];
+            github.issues.removeLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              name: labelsToRemove
+            });
+            github.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: labelsToAdd
+            });
