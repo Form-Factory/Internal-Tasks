@@ -1,0 +1,36 @@
+name: Update Pull Request Label
+
+on:
+  pull_request_review:
+    types: [submitted]
+  pull_request:
+    types: [synchronize]
+
+jobs:
+  update_label:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Update Pull Request Label
+        if: github.event_name == 'pull_request_review' && github.event.review.state == 'changes_requested'
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const labelsToAdd = ['Needs: Changes'];
+            const labelsToRemove = ['Needs: Code Review'];
+            github.issues.removeLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              name: labelsToRemove
+            });
+            github.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: labelsToAdd
+            });
