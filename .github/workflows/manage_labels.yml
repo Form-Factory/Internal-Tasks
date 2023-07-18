@@ -1,0 +1,44 @@
+name: Manage Labels
+
+on:
+  workflow_dispatch:
+
+jobs:
+  manage_labels:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Manage Labels
+        run: |
+          # Read the JSON file
+          labels=$(cat labels.json)
+
+          # Loop through each label
+          echo "$labels" | jq -c '.[]' | while IFS= read -r label; do
+            name=$(echo "$label" | jq -r '.name')
+            color=$(echo "$label" | jq -r '.color')
+            description=$(echo "$label" | jq -r '.description')
+
+            # Check if the label already exists
+            existing_label=$(curl -sSL -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              "https://api.github.com/repos/$GITHUB_REPOSITORY/labels/$name")
+
+            if [[ -z "$existing_label" ]]; then
+              # Label does not exist, create it
+              curl -sSL -X POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                -H "Accept: application/vnd.github.v3+json" \
+                -d "{\"name\":\"$name\",\"color\":\"$color\",\"description\":\"$description\"}" \
+                "https://api.github.com/repos/$GITHUB_REPOSITORY/labels"
+              echo "Created label: $name"
+            else
+              # Label exists, update its properties
+              curl -sSL -X PATCH -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                -H "Accept: application/vnd.github.v3+json" \
+                -d "{\"color\":\"$color\",\"description\":\"$description\"}" \
+                "https://api.github.com/repos/$GITHUB_REPOSITORY/labels/$name"
+              echo "Updated label: $name"
+            fi
+          done
