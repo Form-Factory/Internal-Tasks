@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd .github/scripts
-          npm install
+          npm install @octokit/core
 
       - name: Manage Labels
         run: node .github/scripts/manage-labels.js
