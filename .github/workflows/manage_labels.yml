@@ -1,0 +1,25 @@
+name: Manage Labels
+
+on:
+  workflow_dispatch:
+
+jobs:
+  manage_labels:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: |
+          cd .github/scripts
+          npm install @octokit/core
+
+      - name: Manage Labels
+        run: node .github/scripts/manage-labels.js
