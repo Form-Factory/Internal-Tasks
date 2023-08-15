@@ -16,7 +16,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const labelsToAdd = ['Needs: Code Review'];
+            const labelsToAdd = ['needs code review'];
             github.issues.addLabels({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -30,19 +30,14 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const labelsToAdd = ['Needs: QA'];
-            const labelsToRemove = ['Needs: Code Review'];
-            github.issues.removeLabels({
+            const labelsToAdd = ['QA Needed'];
+            const labelsToRemove = ['needs code review'];
+            github.issues.replaceLabels({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              name: labelsToRemove
-            });
-            github.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              labels: labelsToAdd
+              labels: labelsToAdd,
+              current_labels: labelsToRemove
             });
             
       - name: Update Pull Request Label - Changes Requested
@@ -53,15 +48,10 @@ jobs:
           script: |
             const labelsToAdd = ['Needs: Changes'];
             const labelsToRemove = ['Needs: Code Review'];
-            github.issues.removeLabels({
+            github.issues.replaceLabels({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              name: labelsToRemove
-            });
-            github.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              labels: labelsToAdd
+              labels: labelsToAdd,
+              current_labels: labelsToRemove
             });
