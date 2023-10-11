@@ -1,7 +1,7 @@
 name: "Deliverable Issue"
 description: "This will be created by the Form Factory team"
 title: "[TASK] title"
-labels: ["task"]
+labels: ["Deliverable"]
 body: 
   - type: textarea
     attributes:
