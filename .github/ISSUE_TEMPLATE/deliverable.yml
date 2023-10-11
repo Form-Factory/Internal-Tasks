@@ -1,0 +1,37 @@
+name: ✨ New Feature
+description: Request a new feature
+title:  "[NEW FEATURE] title"
+labels: ["new feature"]
+body: 
+  - type: textarea
+    attributes:
+     label: New Feature Description
+     description: Please describe the new feature
+    validations: 
+     required: true
+  - type: dropdown
+    id: Timeline
+    attributes:
+      label: Timeline
+      description: Please let us know the timeline for getting this feature live. * Note❗️ we will need to ensure the feature can be done in the timeline provided based on specs
+      options:
+        - End of current sprint
+        - Next sprint 
+        - Lets discuss
+    validations:
+      required: true
+  - type: textarea 
+    attributes: 
+      label: Any references? 
+      description: Design files, links to other sites,  Anything that will provide us with more context about the feature you'd like us to build. 
+      placeholder: Tip💡 You can attach images or log files by clicking this area to highlight it and then dragging files in! 
+    validations: 
+      required: false
+  - type: checkboxes
+    id: design
+    attributes: 
+      label: Design Needed?
+      description: This will billed in addition to development hours
+      options: 
+        - label: We would like a design mocked up for this feature
+          required: false
