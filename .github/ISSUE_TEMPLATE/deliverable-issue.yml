@@ -43,7 +43,6 @@ body:
       - M (17-32 hours) 
       - L (33-48 hours) 
       - XL (50+ hours)
-    default: 0
     validations: 
       required: false
   
