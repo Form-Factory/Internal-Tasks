@@ -14,7 +14,7 @@ body:
     id: acceptance_criteria
     attributes:
       label: "Acceptance Criteria"
-      description: "Confirm the must have elements of this feature"
+      description: "Confirm the must-have elements of this feature"
     validations: 
       required: true
   
@@ -35,7 +35,6 @@ body:
   - type: dropdown
     attributes:
       label: "Form Factory Estimate"
-      multiple: false
     options:
       - XS (<4 hours)
       - S (5-16 hours)
