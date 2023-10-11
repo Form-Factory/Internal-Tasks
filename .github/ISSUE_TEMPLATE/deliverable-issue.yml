@@ -1,11 +1,11 @@
-name: "📝 New Project Task"
-description: "Details and criteria for a new project task or feature"
+name: "Deliverable Issue"
+description: "This will be created by the Form Factory team"
 title: "[TASK] title"
 labels: ["task"]
 body: 
   - type: textarea
     attributes:
-      label: "Feature Description"
+      label: "Description"
       description: "Please describe the new feature or task."
     validations: 
       required: true
