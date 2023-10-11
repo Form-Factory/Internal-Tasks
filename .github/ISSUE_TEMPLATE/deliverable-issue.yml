@@ -35,12 +35,15 @@ body:
   - type: dropdown
     attributes:
       label: "Form Factory Estimate"
+      description: What version of our software are you running?
+      multiple: false
       options:
       - XS (<4 hours)
       - S (5-16 hours)
       - M (17-32 hours) 
       - L (33-48 hours) 
       - XL (50+ hours)
+    default: 0
     validations: 
       required: false
   
