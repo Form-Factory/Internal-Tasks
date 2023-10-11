@@ -10,15 +10,11 @@ body:
     validations: 
       required: true
   
-  - type: checkboxes
+  - type: textarea
     id: acceptance_criteria
     attributes:
       label: "Acceptance Criteria"
-      description: "Please confirm that the task meets the following criteria."
-      options: 
-        - label: "Criterion 1"
-        - label: "Criterion 2"
-        - label: "Criterion 3"
+      description: "Confirm the must have elements of this feature"
     validations: 
       required: true
   
