@@ -32,10 +32,16 @@ body:
     validations: 
       required: true
   
-  - type: input
+  - type: dropdown
     attributes:
       label: "Form Factory Estimate"
-      placeholder: "Provide the Form Factory estimate here."
+      multiple: false
+    options:
+      - XS (half day)
+      - S (1-2 days)
+      - M(3-4 days)
+      - L (1 week)
+      - XL (< 1 week)
     validations: 
       required: false
   
